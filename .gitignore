@@ -1,3 +1,6 @@
+#videos
+*.mp4
+
 # compiled output
 /dist
 /node_modules
