@@ -1,6 +1,6 @@
 export const mainPage = {
-    async get (id, host){
-        return `
+  async get(id, host) {
+    return `
         <html>
 <head>
     <title>Video stream sample</title>
@@ -13,6 +13,6 @@ export const mainPage = {
 </div>
 </body>
 </html>
-        `
-    }
-}
+        `;
+  },
+};
