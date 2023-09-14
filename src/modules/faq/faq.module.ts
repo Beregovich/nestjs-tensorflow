@@ -17,4 +17,4 @@ const useCases = [CreateFaqUseCase, UpdateFaqUseCase, DeleteFaqUseCase];
   providers: [...useCases, ...repositories],
   exports: [],
 })
-export class InfoContentModule {}
+export class FaqModule {}

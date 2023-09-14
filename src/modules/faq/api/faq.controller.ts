@@ -10,26 +10,22 @@ import {
   Put,
   Query,
   Res,
-  UseGuards,
 } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { sanitizePaginationData } from '../../../utils/pagination-query-extractor.utility';
 import { FaqDto } from '../dto/faq.dto';
 import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
-import { studentRequestType } from '../../code-review/types/common.types';
-import { User } from '../../../decorators/user.decorator';
 import { FaqQueryRepository } from '../db/faq.query-repository';
-import { CheckStudentGuard } from '../../../guards/check-student.guard';
-import { CheckAdminGuard } from '../../../guards/check-admin.guard';
 import { CreateFaqUseCase } from '../use-cases/create-faq.use-case';
 import { UpdateFaqUseCase } from '../use-cases/update-faq.use-case';
 import { DeleteFaqUseCase } from '../use-cases/delete-faq.use-case';
 import { GetFaqQueryDto } from '../dto/get-faq-query.dto';
+import { sanitizePaginationData } from '../../../utils/pagination-query-extractor.utility';
 
 @ApiHeader({ name: 'token', required: true })
 @ApiTags('FAQ')
 @Controller('faq')
 export class FaqController {
+  fakeCourseId = 3;
   constructor(
     private readonly faqQueryRepository: FaqQueryRepository,
     private readonly createFaqUseCase: CreateFaqUseCase,
@@ -42,14 +38,10 @@ export class FaqController {
     description: 'Success',
   })
   @ApiOperation({ summary: 'get faqs for student' })
-  @UseGuards(CheckStudentGuard)
   @Get('/student')
-  async getFaqForStudent(
-    @Query() query: PaginationQueryDto,
-    @User() user: studentRequestType,
-  ) {
+  async getFaqForStudent(@Query() query: PaginationQueryDto) {
     const sanitizedPaginationQuery = sanitizePaginationData(query);
-    const courseId = user.selectedCourse.courseId;
+    const courseId = this.fakeCourseId;
     return this.faqQueryRepository.getFaqByCourseId(
       courseId,
       sanitizedPaginationQuery,
@@ -61,7 +53,6 @@ export class FaqController {
     description: 'Success',
   })
   @ApiOperation({ summary: 'get faqs for admin' })
-  @UseGuards(CheckAdminGuard)
   @Get('/admin')
   async getFaqForAdmin(@Query() query: GetFaqQueryDto) {
     const sanitizedPaginationQuery = sanitizePaginationData(query);
@@ -77,7 +68,6 @@ export class FaqController {
     description: 'Created',
   })
   @ApiOperation({ summary: 'create faq' })
-  @UseGuards(CheckAdminGuard)
   @Post('/admin')
   async createFaq(@Body() faq: FaqDto) {
     return await this.createFaqUseCase.execute(faq);
