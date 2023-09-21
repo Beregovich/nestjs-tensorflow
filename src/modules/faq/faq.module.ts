@@ -7,12 +7,13 @@ import { FaqController } from './api/faq.controller';
 import { Faq } from './entities/faq.entity';
 import { FaqQueryRepository } from './db/faq.query-repository';
 import { DeleteFaqUseCase } from './use-cases/delete-faq.use-case';
+import { User } from '../users/entities/user.entity';
 
 const repositories = [FaqRepository, FaqQueryRepository];
 
 const useCases = [CreateFaqUseCase, UpdateFaqUseCase, DeleteFaqUseCase];
 @Module({
-  imports: [TypeOrmModule, TypeOrmModule.forFeature([Faq])],
+  imports: [TypeOrmModule, TypeOrmModule.forFeature([Faq, User])],
   controllers: [FaqController],
   providers: [...useCases, ...repositories],
   exports: [],

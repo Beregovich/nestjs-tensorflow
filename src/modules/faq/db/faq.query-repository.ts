@@ -65,4 +65,12 @@ export class FaqQueryRepository {
 
     return { faq, totalCount };
   }
+
+  // async getFaqsDirectly() {
+  //   return this.faqRepository.findAndCount({
+  //     relations: {
+  //       updatedBy: true,
+  //     },
+  //   });
+  // }
 }

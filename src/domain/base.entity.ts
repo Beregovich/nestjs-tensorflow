@@ -6,7 +6,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export abstract class Content {
+export abstract class BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
   @CreateDateColumn({ name: 'created_at' })

@@ -14,7 +14,7 @@ import { Global, Module } from '@nestjs/common';
         password: appSettings.database.POSTGRES_PASSWORD,
         database: appSettings.database.POSTGRES_DATABASE,
         autoLoadEntities: true,
-        synchronize: false,
+        synchronize: true,
         ssl: { rejectUnauthorized: false },
       }),
       inject: [AppSettings.name],
