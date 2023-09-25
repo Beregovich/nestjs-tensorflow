@@ -1,7 +1,4 @@
-//базовые настройки env переменных
-//по умолчанию переменные беруться сначала из ENV илм смотрят всегда на staging
-//для подстановки локальных значений переменных использовать исключительно локальные env файлы env.development.local
-//при необзодимости добавляем сюда нужные приложению переменные
+import * as path from 'path';
 
 export type EnvironmentVariable = { [key: string]: string | undefined };
 export type EnvironmentsTypes =
@@ -9,17 +6,24 @@ export type EnvironmentsTypes =
   | 'STAGING'
   | 'PRODUCTION'
   | 'TEST';
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 export class EnvironmentSettings {
   constructor(private env: EnvironmentsTypes) {}
+
   getEnv() {
     return this.env;
   }
+
   isProduction() {
     return this.env === 'PRODUCTION';
   }
+
   isStaging() {
     return this.env === 'STAGING';
   }
+
   isDevelopment() {
     return this.env === 'DEVELOPMENT';
   }
@@ -28,54 +32,56 @@ export class EnvironmentSettings {
   }
 }
 
-class APISettings {
-  public readonly GET_SESSION_CODE_URL: string;
-  constructor(private envVariables: EnvironmentVariable) {
-    this.GET_SESSION_CODE_URL = envVariables.GET_SESSION_CODE_URL || 'http';
-  }
-}
-
-class AuthSettings {
-  public readonly BASE_AUTH_HEADER: string;
-  constructor(private envVariables: EnvironmentVariable) {
-    this.BASE_AUTH_HEADER =
-      envVariables.BASE_AUTH_HEADER || 'Basic YWRtaW46cXdlcnR5';
-  }
-}
-
-export class DatabaseSettings {
-  public readonly MONGO_URI: string;
-  constructor(private envVariables: EnvironmentVariable) {
-    this.MONGO_URI = envVariables.MONGO_URL || 'mongodb://';
-  }
-}
-
-export class S3Settings {
-  public S3_API_ENDPOINT;
-  public S3_KEY_ID;
-  public S3_SECRET_KEY;
-  constructor(private envVariables: EnvironmentVariable) {
-    this.S3_API_ENDPOINT =
-      this.envVariables.S3_API_ENDPOINT || 'https://bucket.yandexcloud.net';
-    this.S3_KEY_ID = this.envVariables.S3_KEY_ID || '123';
-    this.S3_SECRET_KEY = this.envVariables.S3_SECRET_KEY || '123';
-  }
-}
-
 export class AppSettings {
   constructor(
     public env: EnvironmentSettings,
     public api: APISettings,
-    public auth: AuthSettings,
     public database: DatabaseSettings,
-    public s3: S3Settings,
+    public logger: LoggerSettings,
   ) {}
 }
+
+class APISettings {}
+
+class DatabaseSettings {
+  public readonly POSTGRES_HOST: string;
+  public readonly POSTGRES_DATABASE: string;
+  public readonly POSTGRES_PORT: number;
+  public readonly POSTGRES_USER: string;
+  public readonly POSTGRES_PASSWORD: string;
+  constructor(private envVariables: EnvironmentVariable) {
+    this.POSTGRES_HOST =
+      envVariables.POSTGRES_HOST || 'hattie.db.elephantsql.com';
+    this.POSTGRES_DATABASE = envVariables.POSTGRES_DATABASE || 'eyhiploi';
+    this.POSTGRES_PORT = +envVariables.POSTGRES_PORT || 5432;
+    this.POSTGRES_USER = envVariables.POSTGRES_USER || 'eyhiploi';
+    this.POSTGRES_PASSWORD =
+      envVariables.POSTGRES_PASSWORD || 'zzJXENF6Rd99G-9Nqt6do6h2UvAi-Z5z';
+    // if (this.envVariables.ENV === 'TEST' || this.envVariables.ENV === 'DEV') {
+    //   this.POSTGRES_HOST = 'balarama.db.elephantsql.com';
+    //   this.POSTGRES_DATABASE = 'wgjckijg';
+    //   this.POSTGRES_PORT = 5432;
+    //   this.POSTGRES_USER = 'wgjckijg';
+    //   this.POSTGRES_PASSWORD = 'pmPUS_OIRoOr__FwaRETmm90vw5oQcan';
+    // }
+  }
+}
+
+class LoggerSettings {
+  public readonly HOST: string;
+  public readonly URL_PATH: string;
+  constructor(private envVariables: EnvironmentVariable) {
+    this.HOST = envVariables.LOGGER_HOST || 'default';
+    this.URL_PATH = envVariables.LOGGER_URL_PATH || 'default';
+  }
+}
+
 const env = new EnvironmentSettings(
   (process.env.ENV || 'DEVELOPMENT') as EnvironmentsTypes,
 );
-const api = new APISettings(process.env);
+
+const api = new APISettings();
 const database = new DatabaseSettings(process.env);
-const auth = new AuthSettings(process.env);
-const s3 = new S3Settings(process.env);
-export const appSettings = new AppSettings(env, api, auth, database, s3);
+const logger = new LoggerSettings(process.env);
+
+export const appSettings = new AppSettings(env, api, database, logger);

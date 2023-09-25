@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from './settings/config.module';
-import { VideoModule } from './modules/video/video.module';
+import { DatabaseModule } from './modules/database/database.module';
+import { SettingsModule } from './settings/settings.module';
+import { FaqModule } from './modules/faq/faq.module';
+import { UserModule } from './modules/users/user.module';
 
 @Module({
-  imports: [ConfigModule, VideoModule],
+  imports: [DatabaseModule, SettingsModule, FaqModule, UserModule],
   controllers: [],
   providers: [],
 })
