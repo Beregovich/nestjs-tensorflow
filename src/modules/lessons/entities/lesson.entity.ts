@@ -2,13 +2,15 @@ import { Column, Entity, Index } from 'typeorm';
 import { BaseEntity } from '../../../domain/base.entity';
 import { CreateLessonDto } from '../dto/create-lesson.dto';
 
+//Btree + GIN(RUM?) + HASH + BRIN + GiST(SP-GiST)
+
 @Entity()
+@Index('title_hash', { synchronize: false })
 export class Lesson extends BaseEntity {
   constructor() {
     super();
   }
-  @Index({})
-  @Column({})
+  @Column()
   title: string;
   @Column()
   description: string;
