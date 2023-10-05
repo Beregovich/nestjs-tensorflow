@@ -7,19 +7,19 @@ export class User extends BaseEntity {
   constructor() {
     super();
   }
-  @Column({ name: 'full_name' })
-  fullName: string;
-  @Column({ name: 'first_name' })
-  firstName: string;
+  @Column({ name: 'first_name', nullable: true })
+  firstName: string | null;
   @Column({ name: 'last_name' })
   lastName: string;
+  @Column({ name: 'nick_name', default: 'fake' })
+  nickName: string;
 
   @OneToMany(() => Faq, (faq) => faq.updatedBy)
   faq: Faq[];
 
   public static create(name: string) {
     const user = new User();
-    user.fullName = name;
+    user.firstName = name;
     return user;
   }
 }

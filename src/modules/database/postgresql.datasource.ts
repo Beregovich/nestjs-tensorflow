@@ -2,6 +2,7 @@ import { DataSource } from 'typeorm';
 import { appSettings } from '../../settings/app-settings';
 import { Faq } from '../faq/entities/faq.entity';
 import { User } from '../users/entities/user.entity';
+import { Lesson } from '../lessons/entities/lesson.entity';
 
 const datasource = new DataSource({
   type: 'postgres' as const,
@@ -12,8 +13,9 @@ const datasource = new DataSource({
   database: appSettings.database.POSTGRES_DATABASE,
   synchronize: false,
   migrations: ['dist/**/migrations/*.js'],
-  entities: [Faq, User],
-  ssl: { rejectUnauthorized: false },
+  entities: [Faq, User, Lesson],
+  ssl: false,
+  // ssl: { rejectUnauthorized: false },
 });
 datasource.initialize();
 export default datasource;
