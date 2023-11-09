@@ -37,6 +37,7 @@ export class AppSettings {
     public api: APISettings,
     public database: DatabaseSettings,
     public logger: LoggerSettings,
+    public telegram: TelegramSettings,
   ) {}
 }
 
@@ -53,7 +54,7 @@ class DatabaseSettings {
     switch (this.envVariables.ENV) {
       case 'LOCAL':
         console.log('use local database');
-        this.POSTGRES_HOST = '192.168.88.175';
+        this.POSTGRES_HOST = '192.168.88.145';
         this.POSTGRES_DATABASE = 'faq';
         this.POSTGRES_PORT = 5432;
         this.POSTGRES_USER = 'postgres';
@@ -79,7 +80,7 @@ class DatabaseSettings {
         break;
       default:
         console.log('use default database');
-        this.POSTGRES_HOST = '192.168.88.175';
+        this.POSTGRES_HOST = '192.168.88.145';
         this.POSTGRES_DATABASE = 'faq';
         this.POSTGRES_PORT = 5432;
         this.POSTGRES_USER = 'postgres';
@@ -97,6 +98,15 @@ class LoggerSettings {
   }
 }
 
+class TelegramSettings {
+  public readonly botName: string;
+  public readonly token: string;
+  constructor(private envVariables: EnvironmentVariable) {
+    this.botName = envVariables.TELEGRAM_BOT_NAME || 'fake';
+    this.token = envVariables.TELEGRAM_BOT_TOKEN || null;
+  }
+}
+
 const env = new EnvironmentSettings(
   (process.env.ENV || 'DEVELOPMENT') as EnvironmentsTypes,
 );
@@ -104,5 +114,12 @@ const env = new EnvironmentSettings(
 const api = new APISettings();
 const database = new DatabaseSettings(process.env);
 const logger = new LoggerSettings(process.env);
+const telegram = new TelegramSettings(process.env);
 
-export const appSettings = new AppSettings(env, api, database, logger);
+export const appSettings = new AppSettings(
+  env,
+  api,
+  database,
+  logger,
+  telegram,
+);
