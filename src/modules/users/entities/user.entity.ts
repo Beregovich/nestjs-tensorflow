@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import { BaseEntity } from '../../../domain/base.entity';
 import { Faq } from '../../faq/entities/faq.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
+import { BaseDomainEntity } from '../../../domain/base-domain.entity';
 
 export enum UserStatusEnum {
   NEW = 'NEW',
@@ -11,7 +11,7 @@ export enum UserStatusEnum {
 }
 
 @Entity()
-export class User extends BaseEntity {
+export class User extends BaseDomainEntity {
   constructor() {
     super();
   }
@@ -19,9 +19,9 @@ export class User extends BaseEntity {
   firstName: string | null;
   @Column({ name: 'last_name', nullable: true })
   lastName: string;
-  @Column({ name: 'nick_name', nullable: true })
-  nickName: string;
-  @Column({ name: 'nick_name', nullable: true })
+  @Column({ name: 'login', nullable: true })
+  login: string;
+  @Column({ name: 'telegram_id', nullable: true })
   telegramId: number;
   @Column({ name: 'status', default: UserStatusEnum.NEW, enum: UserStatusEnum })
   status: string;
@@ -32,7 +32,7 @@ export class User extends BaseEntity {
   public static create(dto: CreateUserDto) {
     const user = new User();
     user.status = UserStatusEnum.NEW;
-    user.nickName = dto.nickName;
+    user.login = dto.login;
     user.telegramId = dto.telegramId;
     if (dto.firstName) {
       user.firstName = dto.firstName;

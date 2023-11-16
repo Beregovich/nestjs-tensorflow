@@ -1,10 +1,10 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { FaqDto } from '../dto/faq.dto';
-import { BaseEntity } from '../../../domain/base.entity';
+import { BaseDomainEntity } from '../../../domain/base.entity';
 import { User } from '../../users/entities/user.entity';
 
 @Entity()
-export class Faq extends BaseEntity {
+export class Faq extends BaseDomainEntity {
   constructor() {
     super();
   }
