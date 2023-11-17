@@ -13,7 +13,7 @@ import { Global, Module } from '@nestjs/common';
         username: appSettings.database.POSTGRES_USER,
         password: appSettings.database.POSTGRES_PASSWORD,
         database: appSettings.database.POSTGRES_DATABASE,
-        autoLoadEntities: false,
+        autoLoadEntities: true,
         synchronize: true,
         ssl: { rejectUnauthorized: false },
       }),

@@ -5,7 +5,6 @@ export class CreateUserDto {
   login: string;
   firstName: string | null;
   lastName: string | null;
-  @IsNotEmpty()
   @IsNumber()
-  telegramId: number;
+  telegramId: number | null;
 }

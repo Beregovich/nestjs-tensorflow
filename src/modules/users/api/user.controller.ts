@@ -11,6 +11,10 @@ export class UserController {
     const user = User.create(dto);
     return this.userRepository.save(user);
   }
+  @Get('/')
+  async getUsers() {
+    return this.userRepository.getUsers();
+  }
   @Get('/:id')
   async findUser(@Param('id') id: number) {
     return this.userRepository.findUser(id);

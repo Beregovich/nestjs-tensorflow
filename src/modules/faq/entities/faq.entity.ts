@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { FaqDto } from '../dto/faq.dto';
-import { BaseDomainEntity } from '../../../domain/base.entity';
 import { User } from '../../users/entities/user.entity';
+import { BaseDomainEntity } from '../../../domain/base-domain.entity';
 
-@Entity()
+@Entity({})
 export class Faq extends BaseDomainEntity {
   constructor() {
     super();
@@ -14,7 +14,7 @@ export class Faq extends BaseDomainEntity {
   content: string;
   @Column()
   priority: number;
-  @ManyToOne(() => User) //necessary
+  @ManyToOne(() => User, {}) //necessary
   @JoinColumn({ name: 'updated_by' })
   updatedBy: number;
 

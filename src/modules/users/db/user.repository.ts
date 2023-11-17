@@ -15,4 +15,7 @@ export class UserRepository {
   async findUser(id: number) {
     return this.userRepository.find({ relations: { faq: true } });
   }
+  async getUsers() {
+    return await this.userRepository.find({});
+  }
 }
