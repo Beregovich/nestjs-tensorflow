@@ -8,15 +8,19 @@ export type webHook = {
 export class TelegramBot implements IBot {
   private telegraf: Telegraf<Context<any>>;
   private webHook: string | null;
-  constructor(private token: string) {
-    this.webHook = null;
-  }
+
   async setWebHook(hook: string): Promise<void> {
-    return;
+    this.webHook = hook;
   }
   static async create(token: string) {
-    const bot = new TelegramBot(token);
+    const bot = new TelegramBot();
     bot.telegraf = new Telegraf(token);
     return bot;
   }
 }
+
+export const handlers = {
+  async sayHello(ctx: Context) {
+    ctx.reply('Hello World');
+  },
+};
