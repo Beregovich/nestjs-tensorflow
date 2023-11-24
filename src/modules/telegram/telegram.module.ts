@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { TelegramBot } from './models/telegram.bot';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TelegramBot } from './entities/telegram-bot.entity';
 
 const repositories = [];
 
@@ -11,4 +11,4 @@ const useCases = [];
   providers: [...useCases, ...repositories, TelegramBot],
   exports: [],
 })
-export class BotsModule {}
+export class TelegramModule {}

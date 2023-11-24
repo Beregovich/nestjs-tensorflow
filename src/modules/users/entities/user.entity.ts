@@ -22,7 +22,7 @@ export class User extends BaseDomainEntity {
   @Column({ name: 'login', nullable: true })
   login: string;
   @Column({ name: 'telegram_id', nullable: true })
-  telegramId: number;
+  telegramId: string;
   @Column({ name: 'status', default: UserStatusEnum.NEW, enum: UserStatusEnum })
   status: string;
 
@@ -33,6 +33,8 @@ export class User extends BaseDomainEntity {
     const user = new User();
     user.status = UserStatusEnum.NEW;
     user.login = dto.login;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     user.telegramId = dto.telegramId;
     if (dto.firstName) {
       user.firstName = dto.firstName;
