@@ -13,7 +13,8 @@ const datasource = new DataSource({
   synchronize: false,
   migrations: ['dist/**/migrations/*.js'],
   entities: [Faq, User],
-  ssl: { rejectUnauthorized: false },
+  ssl: false,
+  // ssl: { rejectUnauthorized: false },
 });
 datasource.initialize();
 export default datasource;
