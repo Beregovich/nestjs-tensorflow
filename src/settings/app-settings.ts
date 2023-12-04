@@ -37,9 +37,10 @@ export class AppSettings {
   constructor(
     public env: EnvironmentSettings,
     public api: APISettings,
-    public auth: AuthSettings,
+    //public auth: AuthSettings,
     public database: DatabaseSettings,
-    public s3: S3Settings,
+    public logger: LoggerSettings,
+    public telegram: TelegramSettings, //public s3: S3Settings,
   ) {}
 }
 
