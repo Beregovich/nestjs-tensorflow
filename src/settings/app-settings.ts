@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 export type EnvironmentVariable = { [key: string]: string | undefined };
 export type EnvironmentsTypes =
   | 'DEVELOPMENT'
@@ -35,9 +37,10 @@ export class AppSettings {
   constructor(
     public env: EnvironmentSettings,
     public api: APISettings,
+    //public auth: AuthSettings,
     public database: DatabaseSettings,
     public logger: LoggerSettings,
-    public telegram: TelegramSettings,
+    public telegram: TelegramSettings, //public s3: S3Settings,
   ) {}
 }
 
